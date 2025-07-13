@@ -4,17 +4,17 @@ version = "1.10.0-dev"
 description = "Whisper ASR Webservice is a general-purpose speech recognition webservice."
 requires-python = ">=3.10,<3.13"
 dependencies = [
-    "fastapi (>=0.115.14)",
-    "uvicorn[standard] (>=0.35.0)",
-    "python-multipart (>=0.0.20)",
-    "ffmpeg-python (>=0.2.0)",
-    "numpy (>=2.2.6)",
-    "openai-whisper (>=20250625)",
-    "faster-whisper (>=1.1.1)",
-    "whisperx (>=3.4.2)",
-    "tqdm (>=4.67.1)",
-    "llvmlite (>=0.44.0)",
-    "numba (>=0.61.2)",
+    "fastapi>=0.115.14",
+    "uvicorn[standard]>=0.35.0",
+    "python-multipart>=0.0.20",
+    "ffmpeg-python>=0.2.0",
+    "numpy>=2.2.6",
+    "openai-whisper>=20250625",
+    "faster-whisper>=1.1.1",
+    "whisperx>=3.4.2",
+    "tqdm>=4.67.1",
+    "llvmlite>=0.44.0",
+    "numba>=0.61.2",
 ]
 authors = [
     { name = "Ahmet Öner" },
@@ -23,10 +23,6 @@ authors = [
 license = { text = "MIT" }
 readme = "README.md"
 keywords = ["speech-recognition", "whisper", "asr", "webservice"]
-
-[tool.poetry]
-requires-poetry = ">=2.0"
-packages = [{ include = "app" }]
 
 [project.urls]
 Homepage = "https://github.com/ahmetoner/whisper-asr-webservice/"
@@ -37,49 +33,17 @@ whisper-asr-webservice = "app.webservice:start"
 
 [project.optional-dependencies]
 cpu = [
-    "torch (==2.7.1)",
-    "torchaudio (==2.7.1)"
+    "torch>=2.7.1",
+    "torchaudio>=2.7.1"
 ]
 cuda = [
-    "torch (==2.7.1+cu126)",
-    "torchaudio (==2.7.1+cu126)"
+    "torch>=2.7.1",
+    "torchaudio>=2.7.1"
 ]
 
-[[tool.poetry.source]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
-priority = "explicit"
-
-[[tool.poetry.source]]
-name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu126"
-priority = "explicit"
-
-[tool.poetry.dependencies]
-torch = [
-    { markers = "extra == 'cpu' and extra != 'cuda' and platform_machine == 'x86_64' and sys_platform != 'darwin'", source = "pytorch-cpu"},
-    { markers = "extra == 'cuda' and extra != 'cpu' and platform_machine == 'x86_64' and sys_platform != 'darwin'", source = "pytorch-cuda"},
-    { markers = "extra == 'cpu' and extra != 'cuda' and sys_platform == 'darwin'", source = "pypi"},
-    { markers = "extra == 'cpu' and extra != 'cuda' and platform_machine == 'aarch64' and sys_platform != 'darwin'", source = "pypi"}
- ]
-torchaudio = [
-    { markers = "extra == 'cpu' and extra != 'cuda' and platform_machine == 'x86_64' and sys_platform != 'darwin'", source = "pytorch-cpu"},
-    { markers = "extra == 'cuda' and extra != 'cpu' and platform_machine == 'x86_64' and sys_platform != 'darwin'", source = "pytorch-cuda"},
-    { markers = "extra == 'cpu' and extra != 'cuda' and sys_platform == 'darwin'", source = "pypi"},
-    { markers = "extra == 'cpu' and extra != 'cuda' and platform_machine == 'aarch64' and sys_platform != 'darwin'", source = "pypi"}
- ]
-
-
-[tool.poetry.group.dev.dependencies]
-pytest = ">=8.3.4,<9.0.0"
-ruff = ">=0.9.6,<1.0.0"
-black = ">=25.1.0,<26.0.0"
-mkdocs-material = ">=9.6.4,<10.0.0"
-pymdown-extensions = ">=10.14.3,<11.0.0"
-
 [build-system]
-requires = ["poetry-core>=2.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.black]
 skip-string-normalization = true
@@ -114,3 +78,7 @@ section-order = [
     "local-folder",
 ]
 known-first-party = []
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+include = ["app/**"]
